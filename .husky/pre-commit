@@ -1,4 +1,13 @@
-echo "Running lint..."
+echo "[INIT] - Running pretty-quick..."
+npm run pretty-quick:staged
+echo " "
+echo "[DONE]"
 
-# npm lint
+# echo " "
 
+# echo "[INIT] - Running LINT..."
+# npm run lint:fix
+# echo " "
+# echo "[DONE]"
+
+# echo " "
