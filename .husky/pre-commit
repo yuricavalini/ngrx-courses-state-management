@@ -3,11 +3,11 @@ npm run pretty-quick:staged
 echo " "
 echo "[DONE]"
 
-# echo " "
+echo " "
 
-# echo "[INIT] - Running LINT..."
-# npm run lint:fix
-# echo " "
-# echo "[DONE]"
+echo "[INIT] - Running LINT..."
+npm run lint:fix
+echo " "
+echo "[DONE]"
 
-# echo " "
+echo " "
