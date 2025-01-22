@@ -52,6 +52,12 @@
         // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO ANGULAR (SEE BELOW)
         "prettier/prettier": ["error", { "parser": "angular" }]
       }
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "extends": ["eslint:recommended", "plugin:jsonc/recommended-with-jsonc"],
+      "rules": {}
     }
   ]
 }
