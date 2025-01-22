@@ -1,0 +1,4 @@
+echo "Running lint..."
+
+# npm lint
+
