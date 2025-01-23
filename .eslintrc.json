@@ -3,6 +3,12 @@
   "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
+      "files": ["*.js"],
+      "parserOptions": {
+        "ecmaVersion": 2020
+      }
+    },
+    {
       "files": ["*.ts"],
       "plugins": ["unused-imports", "simple-import-sort"],
       "extends": [

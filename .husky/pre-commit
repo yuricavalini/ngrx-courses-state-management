@@ -5,9 +5,10 @@ echo "[DONE]"
 
 echo " "
 
-echo "[INIT] - Running LINT..."
-npm run lint:fix
+echo "[INIT] - Running lint-staged..."
+npx lint-staged
 echo " "
 echo "[DONE]"
 
 echo " "
+

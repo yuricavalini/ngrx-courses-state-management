@@ -1,0 +1,5 @@
+{
+  "**/*.{ts,html}": ["node ng-lint-staged.js lint:fix"],
+  "**/*.{js,json}": ["npx eslint --fix"],
+  "**/*.{css,scss,sass}": ["npx stylelint --allow-empty-input --fix"]
+}
