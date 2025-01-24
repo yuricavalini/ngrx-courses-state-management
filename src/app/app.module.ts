@@ -17,9 +17,17 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
+import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
+import { metaReducers, reducers } from './reducers';
 
 const routes: Routes = [
+  {
+    path: 'courses',
+    loadChildren: () =>
+      import('./courses/courses.module').then(m => m.CoursesModule),
+    canActivate: [AuthGuard],
+  },
   {
     path: '**',
     redirectTo: '/',
@@ -39,7 +47,7 @@ const routes: Routes = [
     MatListModule,
     MatToolbarModule,
     AuthModule.forRoot(),
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
