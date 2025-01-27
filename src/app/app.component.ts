@@ -9,7 +9,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { logout } from './auth/auth.actions';
+import { login, logout } from './auth/auth.actions';
 import { selectIsLoggedIn, selectIsLoggedOut } from './auth/auth.selectors';
 
 @Component({
@@ -31,6 +31,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    const userProfile = localStorage.getItem('user');
+    if (userProfile) {
+      this.store.dispatch(login({ user: JSON.parse(userProfile) }));
+    }
+
     this.router.events.pipe(takeUntil(this.unsubs$)).subscribe(event => {
       switch (true) {
         case event instanceof NavigationStart: {
@@ -60,6 +65,5 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logout() {
     this.store.dispatch(logout());
-    this.router.navigateByUrl('/login');
   }
 }
