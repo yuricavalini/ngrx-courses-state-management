@@ -1,0 +1,14 @@
+mat-form-field {
+  display: block;
+  width: 100%;
+}
+
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.mdc-dialog__actions {
+  padding: 0 24px 20px;
+}
