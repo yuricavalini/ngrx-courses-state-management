@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
 
-import { compareCourses, Course } from '../../../../shared/models/course';
+import { Course } from '../../../../shared/models/course';
+import {
+  selectAdvancedCourses,
+  selectBeginnerCourses,
+  selectPromoTotal,
+} from '../courses.selectors';
 import { EditCourseDialogComponent } from '../edit-course-dialog/edit-course-dialog.component';
 import { EditCourseDialogData } from '../edit-course-dialog/models/edit-course-dialog-data';
-import { CoursesHttpService } from '../services/courses-http.service';
 import { defaultDialogConfig } from '../shared/default-dialog-config';
 
 @Component({
@@ -18,11 +22,10 @@ export class HomeComponent implements OnInit {
   beginnerCourses$!: Observable<Course[]>;
   advancedCourses$!: Observable<Course[]>;
   promoTotal$!: Observable<number>;
-  loading$!: Observable<boolean>;
 
   constructor(
     private dialog: MatDialog,
-    private coursesHttpService: CoursesHttpService
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -30,26 +33,9 @@ export class HomeComponent implements OnInit {
   }
 
   private loadData() {
-    const courses$ = this.coursesHttpService.findAllCourses().pipe(
-      map(courses => courses.sort(compareCourses)),
-      shareReplay()
-    );
-
-    this.loading$ = courses$.pipe(map(courses => Boolean(courses)));
-
-    this.beginnerCourses$ = courses$.pipe(
-      map(courses => courses.filter(course => course.category == 'BEGINNER'))
-    );
-
-    this.advancedCourses$ = courses$.pipe(
-      map(
-        courses => courses.filter(course => course.category == 'ADVANCED') ?? []
-      )
-    );
-
-    this.promoTotal$ = courses$.pipe(
-      map(courses => courses.filter(course => course.promo).length)
-    );
+    this.beginnerCourses$ = this.store.select(selectBeginnerCourses);
+    this.advancedCourses$ = this.store.select(selectAdvancedCourses);
+    this.promoTotal$ = this.store.select(selectPromoTotal);
   }
 
   onReload() {
