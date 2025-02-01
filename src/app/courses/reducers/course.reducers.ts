@@ -4,6 +4,8 @@ import { createReducer, on } from '@ngrx/store';
 import { compareCourses, Course } from '../../../../shared/models/course';
 import { CourseActions } from '../action-types';
 
+export const coursesFeatureKey = 'courses';
+
 export interface CoursesState extends EntityState<Course> {
   allCoursesLoaded: boolean;
 }
@@ -22,3 +24,5 @@ export const coursesReducer = createReducer(
     adapter.addMany(action.courses, { ...state, allCoursesLoaded: true })
   )
 );
+
+export const { selectAll } = adapter.getSelectors();
