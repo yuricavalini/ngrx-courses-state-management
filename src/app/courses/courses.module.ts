@@ -25,7 +25,7 @@ import { CoursesResolver } from './courses.resolver';
 import { CoursesCardListComponent } from './courses-card-list/courses-card-list.component';
 import { EditCourseDialogComponent } from './edit-course-dialog/edit-course-dialog.component';
 import { HomeComponent } from './home/home.component';
-import { coursesReducer } from './reducers/course.reducers';
+import * as fromCourses from './reducers/course.reducers';
 import { CoursesHttpService } from './services/courses-http.service';
 
 export const coursesRoutes: Routes = [
@@ -62,7 +62,10 @@ export const coursesRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(coursesRoutes),
     EffectsModule.forFeature([CoursesEffects]),
-    StoreModule.forFeature('courses', coursesReducer),
+    StoreModule.forFeature(
+      fromCourses.coursesFeatureKey,
+      fromCourses.coursesReducer
+    ),
   ],
   declarations: [
     HomeComponent,
