@@ -16,17 +16,25 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { RouterModule, Routes } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { CourseComponent } from './course/course.component';
+import { CoursesEffects } from './courses.effects';
+import { CoursesResolver } from './courses.resolver';
 import { CoursesCardListComponent } from './courses-card-list/courses-card-list.component';
 import { EditCourseDialogComponent } from './edit-course-dialog/edit-course-dialog.component';
 import { HomeComponent } from './home/home.component';
+import { coursesReducer } from './reducers/course.reducers';
 import { CoursesHttpService } from './services/courses-http.service';
 
 export const coursesRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    resolve: {
+      courses: CoursesResolver,
+    },
   },
   {
     path: ':courseUrl',
@@ -53,6 +61,8 @@ export const coursesRoutes: Routes = [
     MatMomentDateModule,
     ReactiveFormsModule,
     RouterModule.forChild(coursesRoutes),
+    EffectsModule.forFeature([CoursesEffects]),
+    StoreModule.forFeature('courses', coursesReducer),
   ],
   declarations: [
     HomeComponent,
@@ -66,6 +76,6 @@ export const coursesRoutes: Routes = [
     EditCourseDialogComponent,
     CourseComponent,
   ],
-  providers: [CoursesHttpService],
+  providers: [CoursesHttpService, CoursesResolver],
 })
 export class CoursesModule {}
