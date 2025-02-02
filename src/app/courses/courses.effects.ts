@@ -12,6 +12,7 @@ export class CoursesEffects {
     private actions$: Actions,
     private coursesHttpService: CoursesHttpService
   ) {}
+
   loadCourses$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseActions.loadAllCourses),
@@ -19,4 +20,19 @@ export class CoursesEffects {
       map(courses => allCoursesLoaded({ courses }))
     );
   });
+
+  saveCourse$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CourseActions.courseUpdated),
+        concatMap(action =>
+          this.coursesHttpService.saveCourse(
+            action.update.id,
+            action.update.changes
+          )
+        )
+      );
+    },
+    { dispatch: false }
+  );
 }

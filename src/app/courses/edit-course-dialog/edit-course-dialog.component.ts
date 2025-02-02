@@ -1,10 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Update } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
 
 import { Course } from '../../../../shared/models/course';
-import { CoursesHttpService } from '../services/courses-http.service';
+import { courseUpdated } from '../course.actions';
 import { EditCourseDialogData } from './models/edit-course-dialog-data';
 
 @Component({
@@ -24,7 +26,7 @@ export class EditCourseDialogComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<EditCourseDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     private data: EditCourseDialogData,
-    private coursesService: CoursesHttpService
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -46,11 +48,12 @@ export class EditCourseDialogComponent implements OnInit, OnDestroy {
       ...this.dialogData.course,
       ...this.form.value,
     };
-
-    this.coursesService
-      .saveCourse(course.id, course)
-      .pipe(takeUntil(this.unsubs$))
-      .subscribe(() => this.dialogRef.close());
+    const update: Update<Course> = {
+      id: course.id,
+      changes: course,
+    };
+    this.store.dispatch(courseUpdated({ update }));
+    this.dialogRef.close();
   }
 
   private createForm() {
