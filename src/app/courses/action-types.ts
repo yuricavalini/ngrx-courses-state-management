@@ -1,3 +1,4 @@
-import * as CourseActions from './course.actions';
+import * as coursesApiActions from './course-api.actions';
+import * as coursesPageActions from './course-page.actions';
 
-export { CourseActions };
+export { coursesApiActions, coursesPageActions };
