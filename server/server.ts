@@ -21,11 +21,11 @@ app.route('/api/login').post(loginUser);
 
 app.route('/api/courses').get(getAllCourses);
 
-app.route('/api/course').post(createCourse);
+app.route('/api/courses').post(createCourse);
 
-app.route('/api/course/:id').put(saveCourse);
+app.route('/api/courses/:id').put(saveCourse);
 
-app.route('/api/course/:id').delete(deleteCourse);
+app.route('/api/courses/:id').delete(deleteCourse);
 
 app.route('/api/courses/:courseUrl').get(getCourseByUrl);
 
