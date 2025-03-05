@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
-import { Course } from '../../../../shared/models/course';
-import { Lesson } from '../../../../shared/models/lesson';
-import { CoursesHttpService } from '../services/courses-http.service';
+import { coursesPageActions } from '../action-types';
+import { selectCoursePageViewModel } from '../courses.selectors';
 
 @Component({
   selector: 'app-course',
@@ -13,26 +10,13 @@ import { CoursesHttpService } from '../services/courses-http.service';
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit {
-  courseUrl: string | null = null;
-  course$!: Observable<Course>;
-  lessons$!: Observable<Lesson[]>;
+  vm$ = this.store.select(selectCoursePageViewModel);
   displayedColumns = ['seqNo', 'description', 'duration'];
   nextPage = 0;
-  loading$!: Observable<boolean>;
 
-  constructor(
-    private coursesService: CoursesHttpService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private store: Store) {}
 
   ngOnInit() {
-    this.courseUrl = this.route.snapshot.paramMap.get('courseUrl');
-
-    if (this.courseUrl) {
-      this.course$ = this.coursesService.findCourseByUrl(this.courseUrl);
-      this.lessons$ = this.course$.pipe(
-        concatMap(course => this.coursesService.findLessons(course.id))
-      );
-    }
+    this.store.dispatch(coursesPageActions.openedCourse());
   }
 }
