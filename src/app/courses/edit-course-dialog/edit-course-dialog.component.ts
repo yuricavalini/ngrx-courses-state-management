@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 
 import { Course } from '../../../../shared/models/course';
-import { courseUpdated } from '../course.actions';
+import { coursesPageActions } from '../action-types';
 import { EditCourseDialogData } from './models/edit-course-dialog-data';
 
 @Component({
@@ -52,7 +52,7 @@ export class EditCourseDialogComponent implements OnInit, OnDestroy {
       id: course.id,
       changes: course,
     };
-    this.store.dispatch(courseUpdated({ update }));
+    this.store.dispatch(coursesPageActions.courseUpdated({ update }));
     this.dialogRef.close();
   }
 
