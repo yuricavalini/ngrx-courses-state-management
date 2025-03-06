@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Course } from '../../../../shared/models/course';
+import { coursesPageActions } from '../action-types';
 import {
   selectAdvancedCourses,
   selectBeginnerCourses,
@@ -57,5 +58,10 @@ export class HomeComponent implements OnInit {
       .open(EditCourseDialogComponent, dialogConfig)
       .afterClosed()
       .subscribe();
+  }
+
+  onDeleteCourse(id: string) {
+    this.store.dispatch(coursesPageActions.courseDeleted({ id }));
+    this.loadData();
   }
 }

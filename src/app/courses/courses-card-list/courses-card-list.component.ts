@@ -16,7 +16,10 @@ export class CoursesCardListComponent {
   courses!: Course[];
 
   @Output()
-  courseChanged = new EventEmitter<void>();
+  courseUpdated = new EventEmitter<void>();
+
+  @Output()
+  courseDeleted = new EventEmitter<string>();
 
   constructor(private dialog: MatDialog) {}
 
@@ -34,6 +37,10 @@ export class CoursesCardListComponent {
     this.dialog
       .open(EditCourseDialogComponent, dialogConfig)
       .afterClosed()
-      .subscribe(() => this.courseChanged.emit());
+      .subscribe(() => this.courseUpdated.emit());
+  }
+
+  deleteCourse(id: number) {
+    this.courseDeleted.emit(String(id));
   }
 }
